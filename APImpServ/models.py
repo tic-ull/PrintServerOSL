@@ -38,7 +38,7 @@ class Quota(Model):
     id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     printer = models.ForeignKey('Printer')
     user_type = models.ForeignKey('UserType', related_name="Quotas")
-    #La cuota será un número, que será el número de paǵina a imprimir por mes y usuario.
+    #La cuota será un número, que será el numero de página a imprimir por mes y usuario.
     quota = CharField(max_length=4)
 
 class UserQuota(Model):
