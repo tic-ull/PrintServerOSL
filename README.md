@@ -38,6 +38,7 @@ sudo pip install django-filter
 sudo pip install djangorestframework
 sudo pip install netaddr
 sudo pip install pypdf2
+sudo pip install django_reset
 ```
 
 * Crear las migraciones y las tablas de la base de datos:
