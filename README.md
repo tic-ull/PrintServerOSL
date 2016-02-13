@@ -67,7 +67,7 @@ $ sudo mkdir static
 $ sudo python manage.py collectstatic
 ```
 
-* Si no se tiene servidor DNS para el dominio, será necesario añadir esta línea a /etc/hosts de todas las máquinas, tanto clientes como seervidor:
+* Si no se tiene servidor DNS para el dominio, será necesario añadir esta línea a '/etc/hosts' de todas las máquinas, tanto clientes como servidor:
 
 ```
 <ip_servidor>   <nombre_del_dominio>
