@@ -5,8 +5,8 @@
 * Instalar VirtualEnv en el server y crear el entorno donde deseemos:
 
 ```
-$ sudo apt-get install python-virtualenv
-$ sudo virtualenv /opt/imp_serv
+$ sudo apt-get install python-virtualenv python3-pip
+$ sudo virtualenv --python=python3 /opt/imp_serv
 ```
 
 * Instalar Django dentro del VirtualEnv recién creado:
@@ -14,7 +14,7 @@ $ sudo virtualenv /opt/imp_serv
 ```
 $ cd /opt/imp_serv
 $ source bin/activate
-$ sudo pip install django
+$ sudo pip3 install django
 ```
 
 * Creamos la carpeta donde almacenaremos el proyecto:
@@ -28,17 +28,17 @@ $ cd imp_serv
 
 ```
 $ sudo apt-get install git
-$ sudo git clone https://<user>@bitbucket.org/igeko/printerserver.git .
+$ sudo git clone https://github.com/tic-ull/PrintServerOSL.git .
 ```
 
 * Instalar depencencias con Pip:
 
 ```
-sudo pip install django-filter
-sudo pip install djangorestframework
-sudo pip install netaddr
-sudo pip install pypdf2
-sudo pip install django_reset
+sudo pip3 install django-filter
+sudo pip3 install djangorestframework
+sudo pip3 install netaddr
+sudo pip3 install pypdf2
+sudo pip3 install django_reset
 ```
 
 * Crear las migraciones y las tablas de la base de datos:
@@ -67,10 +67,17 @@ $ sudo mkdir static
 $ sudo python manage.py collectstatic
 ```
 
-* Crear dominio en Nginx:
+* Si no se tiene servidor DNS para el dominio, será necesario añadir esta línea a /etc/hosts de todas las máquinas, tanto clientes como seervidor:
 
 ```
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/<nombre_del_dominio>
+<ip_servidor>   <nombre_del_dominio>
+```
+
+* Instalar nginx y crear dominio en Nginx:
+
+```
+$ sudo apt-get install nginx
+$ sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/<nombre_del_dominio>
 ```
 
 * Modificar el fichero recién creado de manera que contenga el siguiente código:
@@ -96,13 +103,13 @@ server {
                 proxy_set_header X-Forwarded-Host $server_name;
                 proxy_set_header X-Real-IP $remote_addr;
                 add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
-        
+       } 
 
-        error_page 404 /404.html;
-        error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-                root /usr/share/nginx/html;
-        }
+        #error_page 404 /404.html;
+        #error_page 500 502 503 504 /50x.html;
+        #location = /50x.html {
+        #        root /usr/share/nginx/html;
+        #}
 
 }
 ```
@@ -119,11 +126,11 @@ $ sudo service nginx restart
 ```
 $ cd /opt/imp_serv/imp_serv
 $ source ../bin/activate
-$ sudo pip install gunicorn
+$ sudo pip3 install gunicorn
 ```
 
 * Por último ejecutar el comando necesario con Gunicorn para poner la página a funcionar:
 
 ```
-$ gunicorn SWP.wsgi:application --bind <nombre_del_dominio>:8001
+$ gunicorn ImpServ.wsgi:application --bind <nombre_del_dominio>:8001
 ```
